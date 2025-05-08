@@ -1,4 +1,4 @@
-use diesel::dsl::{AsSelect, Eq, Filter as DieselFilter, InnerJoin, IntoBoxed, SqlTypeOf};
+use diesel::dsl::{AsSelect, Eq, Filter as DieselFilter, IntoBoxed, LeftJoin, SqlTypeOf};
 use diesel::expression::SqlLiteral;
 use diesel::prelude::*;
 use diesel::sql_types::Binary;
@@ -18,7 +18,7 @@ use super::schema::sqlite::{event_tags, events};
 type QuerySetJoinTypeDb<'a, DB> = IntoBoxed<
     'a,
     DieselFilter<
-        InnerJoin<events::table, event_tags::table>,
+        LeftJoin<events::table, event_tags::table>,
         Eq<event_tags::event_id, SqlLiteral<Binary>>,
     >,
     DB,
@@ -42,7 +42,7 @@ type BoxedEventQuery<'a> = BoxedEventQueryDb<'a, diesel::mysql::Mysql>;
 pub fn build_filter_query<'a>(filter: Filter) -> QuerySetJoinType<'a> {
     let mut query = events::table
         .distinct()
-        .inner_join(event_tags::table)
+        .left_join(event_tags::table)
         .filter(events::deleted.eq(false))
         .order_by(events::created_at.desc())
         .into_boxed();

@@ -19,6 +19,7 @@ use crate::query::{build_filter_query, event_by_id, with_limit};
 pub type PostgresConnectionPool = Pool<AsyncDieselConnectionManager<AsyncPgConnection>>;
 pub type PostgresConnection = Object<AsyncDieselConnectionManager<AsyncPgConnection>>;
 
+/// Inplements NostrDatabase trait for a Postgres database backend
 #[derive(Clone)]
 pub struct NostrPostgres {
     pool: PostgresConnectionPool,
