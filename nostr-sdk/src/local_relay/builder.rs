@@ -265,10 +265,6 @@ impl LocalRelayBuilderNip42 {
     }
 
     /// Set the relay URL expected in NIP-42 authentication events.
-    ///
-    /// This is useful when the local relay is embedded behind another
-    /// WebSocket server, reverse proxy, or TLS terminator and its public
-    /// URL differs from its listening URL.
     #[inline]
     pub fn relay_url(mut self, url: RelayUrl) -> Self {
         self.relay_url = Some(url);
